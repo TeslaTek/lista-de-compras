@@ -13,7 +13,7 @@ const init = () => {
 export const TodoComponent = () => {
 
     const [todos, dispatch] = useReducer(todoReducer, [], init);
-
+        console.log(todos);
     useEffect(() => {
         localStorage.setItem('todos', JSON.stringify(todos))
         
@@ -55,7 +55,9 @@ export const TodoComponent = () => {
 
           <TodoAdd  handleAddTodo={handleAddTodo}/>  
           <TodoList todos={todos} fdelete={handleDelete} ftoggle={handleToggle} />
-          <TodoSend todos={todos} />
+
+          { todos.length > 0 && ( <TodoSend todos={todos} />)}
+         
         </main>
     )
 }

@@ -11,7 +11,7 @@ export const TodoSend = ({todos}) => {
 
        if (todos.length>0) {
             let urlMessage = (cellValue.trim() !== '' )? '598'+ cellValue + '/?text=*Lista%20Para%20El%20Super:*%0A' : '?text=*Lista%20Para%20El%20Super:*%0A';
-            todos.map(todo => {
+            todos.forEach(todo => {
                 urlMessage= urlMessage.concat(encodeURI(todo.desc)+'%0A') 
             });
             url =  url.concat(urlMessage);       
@@ -37,12 +37,12 @@ export const TodoSend = ({todos}) => {
                 />
             </div>
             <div className='d-flex align-items-center justify-content-center'>
-                <a  
-                    target={`_blanket`} 
+                <button 
+                    className='bg-transparent border-0'
                     onClick={sendMessage}
                 >
-                    <img src='send_Whatsapp.png' width='75' height='75'/>
-                </a>
+                    <img alt='wspLogo' src='send_Whatsapp.png' width='75' height='75'/>
+                </button>
             </div>
             </form>
         </section>

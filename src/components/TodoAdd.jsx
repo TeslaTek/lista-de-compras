@@ -1,5 +1,6 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { useForm } from '../hooks/useForm'
+import { TodoCategory } from './TodoCategory.jsx';
 
 export const TodoAdd = ({handleAddTodo}) => {
 
@@ -7,6 +8,7 @@ export const TodoAdd = ({handleAddTodo}) => {
         task:''
     })
 
+    const [category, setCategory] = useState(undefined);
     // optional code to capitalize the item of the list
     const   capitalizeAllFirst = (string) => {
         let auxString = string.split(' ');
@@ -14,7 +16,7 @@ export const TodoAdd = ({handleAddTodo}) => {
             return a.charAt(0).toUpperCase() + a.slice(1);
         })
         let returnedString ='';
-        auxString.map(a => {
+        auxString.forEach(a => {
             returnedString= returnedString+' '+a;
         });
         return returnedString;
@@ -27,6 +29,7 @@ export const TodoAdd = ({handleAddTodo}) => {
             const newTodo = {
                 id: new Date().getTime(),
                 desc: taskAux,
+                category,
                 done: false
             }
             handleAddTodo(newTodo);
@@ -34,11 +37,23 @@ export const TodoAdd = ({handleAddTodo}) => {
         }
     }
 
+    const handleCategoryChange = (e) =>{
+        const placeholder = e.currentTarget.getAttribute('placeholder');
+        if(e.currentTarget.value !== placeholder){
+            setCategory(e.currentTarget.value);
+        }else {
+            setCategory(undefined);
+        }
+        
+    }
+
     return (
         <section>
                 <form onSubmit={handleSubmit}>
+                   <TodoCategory handleCategoryChange={handleCategoryChange}  placeholder='Elige una categoría'/>
                     <div className='input-group  bg-light rounded'>
                         <input 
+                                disabled={category === undefined}
                                 className='form-control'
                                 type='text'
                                 name='task'
@@ -48,8 +63,9 @@ export const TodoAdd = ({handleAddTodo}) => {
                                 onChange={handleInputChange}
                         />
                         <button 
+                        disabled={category === undefined}
                         type='submit'
-                        className='btn btn-primary'
+                        className={category ? 'btn btn-primary' : 'btn btn-disabled'}
                         >
                             Agregar
                         </button>
